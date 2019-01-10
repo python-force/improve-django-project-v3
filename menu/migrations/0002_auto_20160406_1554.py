@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
                 ('description', models.TextField()),
                 ('created_date', models.DateTimeField(default=django.utils.timezone.now)),
                 ('standard', models.BooleanField(default=False)),
-                ('chef', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('chef', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
                 ('ingredients', models.ManyToManyField(to='menu.Ingredient')),
             ],
         ),

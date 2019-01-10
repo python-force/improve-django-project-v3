@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('description', models.TextField()),
                 ('created_date', models.DateTimeField(default=django.utils.timezone.now)),
                 ('published_date', models.DateTimeField(blank=True, null=True)),
-                ('chef', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('chef', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

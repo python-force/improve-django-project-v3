@@ -1,20 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import Http404
-from django.utils import timezone
-from operator import attrgetter
 from datetime import datetime
-from django.core.exceptions import ObjectDoesNotExist
-from .models import *
-from .forms import *
+from .models import Menu, Item
+from .forms import MenuForm
 
 def menu_list(request):
-    all_menus = Menu.objects.all()
-    menus = []
-    for menu in all_menus:
-        if menu.expiration_date >= timezone.now():
-            menus.append(menu)
-
-    menus = sorted(menus, key=attrgetter('expiration_date'))
+    menus = Menu.objects.all().filter(expiration_date__lte=timezone.now()).order_by('expiration_date')
     return render(request, 'menu/list_all_current_menus.html', {'menus': menus})
 
 def menu_detail(request, pk):
@@ -22,10 +12,7 @@ def menu_detail(request, pk):
     return render(request, 'menu/menu_detail.html', {'menu': menu})
 
 def item_detail(request, pk):
-    try: 
-        item = Item.objects.get(pk=pk)
-    except ObjectDoesNotExist:
-        raise Http404
+    item = get_object_or_404(Item, pk=pk)
     return render(request, 'menu/detail_item.html', {'item': item})
 
 def create_new_menu(request):
@@ -46,7 +33,7 @@ def edit_menu(request, pk):
     if request.method == "POST":
         menu.season = request.POST.get('season', '')
         menu.expiration_date = datetime.strptime(request.POST.get('expiration_date', ''), '%m/%d/%Y')
-        menu.items = request.POST.get('items', '')
+        menu.items.set = request.POST.get('items', '')
         menu.save()
 
     return render(request, 'menu/change_menu.html', {

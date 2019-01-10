@@ -1,6 +1,5 @@
 from django import forms
-from django.forms.extras.widgets import SelectDateWidget
-
+#widget=forms.SelectDateWidget
 from .models import Menu, Item, Ingredient
 
 class MenuForm(forms.ModelForm):
