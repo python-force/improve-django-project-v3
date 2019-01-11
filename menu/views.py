@@ -1,7 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from datetime import datetime
 from .models import Menu, Item
 from .forms import MenuForm
 from django.utils import timezone
@@ -25,6 +22,7 @@ def create_new_menu(request):
         if form.is_valid():
             menu = form.save(commit=False)
             menu.created_date = timezone.now()
+            menu.items.set(form.cleaned_data['items'])
             menu.save()
             return redirect('menu_detail', pk=menu.pk)
     else:
@@ -44,21 +42,3 @@ def edit_menu(request, pk):
     else:
         form = MenuForm(instance=menu)
     return render(request, 'menu/change_menu.html', {'form':form})
-
-
-"""
-@login_required
-def edit_profile(request, profile_slug):
-    profile = get_object_or_404(Profile, slug=profile_slug)
-    form = ProfileForm(instance=profile)
-
-    if request.method == "POST":
-        form = ProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "{} {}'s profile updated."
-                             .format(form.cleaned_data["first_name"],
-                                     form.cleaned_data["last_name"]))
-            return HttpResponseRedirect(profile.get_absolute_url())
-    return render(request, "edit-profile.html", {'form': form})
-"""
