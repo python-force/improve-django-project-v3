@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
 from .models import Menu, Item
-from .forms import MenuForm
+from .forms import MenuForm, ItemForm
 from django.utils import timezone
 
 
@@ -46,3 +46,18 @@ def edit_menu(request, pk):
     else:
         form = MenuForm(instance=menu)
     return render(request, 'menu/change_menu.html', {'form':form})
+
+def edit_item(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+    if request.method == "POST":
+        form = ItemForm(request.POST, instance=item)
+        if form.is_valid():
+            item.name = form.cleaned_data["name"]
+            item.description = form.cleaned_data['description']
+            item.standard = form.cleaned_data['standard']
+            item.ingredients.set(form.cleaned_data['ingredients'])
+            item.save()
+            return redirect('item_detail', pk=item.pk)
+    else:
+        form = ItemForm(instance=item)
+    return render(request, 'menu/change_item.html', {'form':form})

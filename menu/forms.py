@@ -10,3 +10,9 @@ class MenuForm(forms.ModelForm):
         widgets = {
             'expiration_date': DatePickerInput(),  # default date-format %m/%d/%Y will be used
         }
+
+class ItemForm(forms.ModelForm):
+
+    class Meta:
+        model = Item
+        fields = ['name', 'description', 'standard', 'ingredients']
