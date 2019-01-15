@@ -1,16 +1,20 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
 from .models import Menu, Item
 from .forms import MenuForm
 from django.utils import timezone
 
 
 def menu_list(request):
-    menus = Menu.objects.all().filter(expiration_date__lte=timezone.now()).order_by('expiration_date')
+    menus = Menu.objects.all().filter(expiration_date__gte=timezone.now()).order_by('expiration_date')
     return render(request, 'menu/list_all_current_menus.html', {'menus': menus})
 
 def menu_detail(request, pk):
     menu = Menu.objects.get(pk=pk)
     return render(request, 'menu/menu_detail.html', {'menu': menu})
+
+def item_list(request):
+    items = get_list_or_404(Item)
+    return render(request, 'menu/item_list.html', {'items': items})
 
 def item_detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
@@ -22,8 +26,8 @@ def create_new_menu(request):
         if form.is_valid():
             menu = form.save(commit=False)
             menu.created_date = timezone.now()
-            menu.items.set(form.cleaned_data['items'])
             menu.save()
+            menu.items.set(form.cleaned_data['items'])
             return redirect('menu_detail', pk=menu.pk)
     else:
         form = MenuForm()

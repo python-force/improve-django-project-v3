@@ -1,5 +1,5 @@
 from django import forms
-#widget=forms.SelectDateWidget
+from bootstrap_datepicker_plus import DatePickerInput
 from .models import Menu, Item, Ingredient
 
 class MenuForm(forms.ModelForm):
@@ -7,3 +7,6 @@ class MenuForm(forms.ModelForm):
     class Meta:
         model = Menu
         fields = ['season', 'items', 'expiration_date']
+        widgets = {
+            'expiration_date': DatePickerInput(),  # default date-format %m/%d/%Y will be used
+        }

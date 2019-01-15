@@ -1,0 +1,23 @@
+{% load bootstrap4 %}
+<html>
+    <head>
+        <title>Soda Fountain</title>
+        {% bootstrap_css %}
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="page-header">
+            {% if user.is_authenticated %}
+                <a href="{% url 'menu_new' %}" class="top-menu">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </a>
+            {% endif %}
+            <h1><a href="/">Soda Fountain</a></h1>
+        </div>
+        <div class="content container">
+            {% block content %}{% endblock %}
+        </div>
+        {% bootstrap_javascript jquery='full' %}
+        {{ form.media }}
+    </body>
+</html>

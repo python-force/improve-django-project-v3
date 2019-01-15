@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-8">
+            {% for item in items %}
+                <div>
+                    <h1><a href="{% url 'item_detail' pk=item.pk %}">{{ item.name }}</a></h1>
+                    <p>{{ item.description|linebreaks }}</p>
+                    <p>published: {{ item.created_date }}</p>
+                </div>
+                <hr>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
