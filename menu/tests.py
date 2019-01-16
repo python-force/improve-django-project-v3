@@ -76,7 +76,6 @@ class MenuViewsTests(TestCase):
                                           'items': '',
                                           'expiration_date': "2019-01-15"})
         self.assertEqual(resp.status_code, 200)
-
         self.assertTrue('error_1_id_items' in resp.content.decode('utf-8'))
 
     def test_create_new_menu_view(self):
@@ -127,13 +126,14 @@ class MenuViewsTests(TestCase):
 
     def test_change_menu_view(self):
         test_data = {
-            'season': "Small Menu with Cakes and Candles",
+            'season': "Testing New Title for this Menu",
+            'expiration_date': datetime.strptime("2021-12-11", "%Y-%m-%d").date(),
             'items': [self.item.pk,],
-            'expiration_date': datetime.strptime("2021-12-11", "%Y-%m-%d").date()
         }
         resp = self.client.post(reverse('menu_edit',
                                         kwargs={'pk': 1}),
                                         test_data,
                                 )
+        # self.assertEqual(resp.status_code, 302)
         self.assertEqual(Menu.objects.get(pk=1).season,
-                         'Small Menu with Cakes and Candles')
+                         'Testing New Title for this Menu')
