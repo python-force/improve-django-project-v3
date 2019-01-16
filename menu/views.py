@@ -1,24 +1,34 @@
-from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
+from django.shortcuts import render, \
+    get_object_or_404, \
+    redirect, \
+    get_list_or_404
 from .models import Menu, Item
 from .forms import MenuForm, ItemForm
 from django.utils import timezone
 
 
 def menu_list(request):
-    menus = Menu.objects.all().filter(expiration_date__gte=timezone.now()).order_by('expiration_date').prefetch_related('items')
-    return render(request, 'menu/list_all_current_menus.html', {'menus': menus})
+    menus = Menu.objects.all().\
+        filter(expiration_date__gte=timezone.now()).\
+        order_by('expiration_date').prefetch_related('items')
+    return render(request, 'menu/list_all_current_menus.html',
+                  {'menus': menus})
+
 
 def menu_detail(request, pk):
     menu = Menu.objects.get(pk=pk)
     return render(request, 'menu/menu_detail.html', {'menu': menu})
 
+
 def item_list(request):
     items = get_list_or_404(Item)
     return render(request, 'menu/item_list.html', {'items': items})
 
+
 def item_detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
     return render(request, 'menu/detail_item.html', {'item': item})
+
 
 def create_new_menu(request):
     if request.method == "POST":
@@ -33,6 +43,7 @@ def create_new_menu(request):
         form = MenuForm()
     return render(request, 'menu/menu_edit.html', {'form': form})
 
+
 def edit_menu(request, pk):
     menu = get_object_or_404(Menu, pk=pk)
     if request.method == "POST":
@@ -45,7 +56,8 @@ def edit_menu(request, pk):
             return redirect('menu_detail', pk=menu.pk)
     else:
         form = MenuForm(instance=menu)
-    return render(request, 'menu/change_menu.html', {'form':form})
+    return render(request, 'menu/change_menu.html', {'form': form})
+
 
 def edit_item(request, pk):
     item = get_object_or_404(Item, pk=pk)
@@ -60,4 +72,4 @@ def edit_item(request, pk):
             return redirect('item_detail', pk=item.pk)
     else:
         form = ItemForm(instance=item)
-    return render(request, 'menu/change_item.html', {'form':form})
+    return render(request, 'menu/change_item.html', {'form': form})

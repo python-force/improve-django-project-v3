@@ -14,6 +14,7 @@ class Menu(models.Model):
     def __str__(self):
         return self.season
 
+
 class Item(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
@@ -21,10 +22,12 @@ class Item(models.Model):
     created_date = models.DateTimeField(
             default=timezone.now)
     standard = models.BooleanField(default=False)
-    ingredients = models.ManyToManyField('Ingredient', related_name='ingredients')
+    ingredients = models.ManyToManyField('Ingredient',
+                                         related_name='ingredients')
 
     def __str__(self):
         return self.name
+
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=200)

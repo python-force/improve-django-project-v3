@@ -5,6 +5,10 @@ django-bootstrap3==11.0.0
 django-bootstrap4==0.0.7
 django-crispy-forms==1.7.2
 django-debug-toolbar==1.11
+flake8==3.6.0
+mccabe==0.6.1
+pycodestyle==2.4.0
+pyflakes==2.0.0
 pytz==2018.9
 selenium==2.53.1
 sqlparse==0.2.1

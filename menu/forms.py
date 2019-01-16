@@ -11,13 +11,14 @@ class MenuForm(forms.ModelForm):
         model = Menu
         fields = ['season', 'items', 'expiration_date']
         widgets = {
-            'expiration_date': DatePickerInput(),  # default date-format %m/%d/%Y will be used
+            'expiration_date': DatePickerInput(),
         }
 
     def clean_season(self):
         season = self.cleaned_data['season']
-        if len(season) < 12:
-            raise ValidationError('Please create menu with at least 12 characters.')
+        if len(season) < 7:
+            raise ValidationError('Please create menu with '
+                                  'at least 12 characters.')
 
         return season
 
@@ -35,17 +36,18 @@ class ItemForm(forms.ModelForm):
         model = Item
         fields = ['name', 'description', 'standard', 'ingredients']
 
-
     def clean_name(self):
         name = self.cleaned_data['name']
-        if len(name) < 12:
-            raise ValidationError('Please create name with at least 12 characters.')
+        if len(name) < 7:
+            raise ValidationError('Please create name with '
+                                  'at least 12 characters.')
 
         return name
 
     def clean_description(self):
         description = self.cleaned_data['description']
         if len(description) < 25:
-            raise ValidationError('Please create description with at least 25 characters.')
+            raise ValidationError('Please create description '
+                                  'with at least 25 characters.')
 
         return description
