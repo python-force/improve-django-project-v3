@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Menu(models.Model):
-    season = models.CharField(max_length=50)
+    season = models.CharField(max_length=200)
     items = models.ManyToManyField('Item', related_name='items')
     created_date = models.DateTimeField(
             default=timezone.now)
