@@ -5,7 +5,7 @@ from django.utils import timezone
 
 
 def menu_list(request):
-    menus = Menu.objects.all().filter(expiration_date__gte=timezone.now()).order_by('expiration_date')
+    menus = Menu.objects.all().filter(expiration_date__gte=timezone.now()).order_by('expiration_date').prefetch_related('items')
     return render(request, 'menu/list_all_current_menus.html', {'menus': menus})
 
 def menu_detail(request, pk):
