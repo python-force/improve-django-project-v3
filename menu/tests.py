@@ -129,7 +129,7 @@ class MenuViewsTests(TestCase):
         test_data = {
             'season': "Small Menu with Cakes and Candles",
             'items': [self.item.pk,],
-            'expiration_date': "02/09/2021"
+            'expiration_date': datetime.strptime("2021-12-11", "%Y-%m-%d").date()
         }
         resp = self.client.post(reverse('menu_edit',
                                         kwargs={'pk': 1}),
