@@ -137,3 +137,11 @@ class MenuViewsTests(TestCase):
         # self.assertEqual(resp.status_code, 302)
         self.assertEqual(Menu.objects.get(pk=1).season,
                          'Testing New Title for this Menu')
+
+
+class AddTest(TestCase):
+
+    def test_add_two_num(self):
+        result = 5+7
+        self.assertEqual(result, 13)
+
