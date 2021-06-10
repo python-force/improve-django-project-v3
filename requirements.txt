@@ -1,5 +1,5 @@
 coverage==3.7.1
-Django==2.1.5
+Django==2.2.24
 django-bootstrap-datepicker-plus==3.0.5
 django-bootstrap3==11.0.0
 django-bootstrap4==0.0.7
